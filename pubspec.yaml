@@ -1,0 +1,11 @@
+name: github_issues_section_remake
+version: 0.1.0
+description: >-
+  A remake of GitHub issues to learn how Dart works and learn React-MobX
+author: Esteban Borai <estebanborai@outlook.com>
+homepage: https://github.com/estebanborai/github-issues-section-remake
+repository: https://github.com/estebanborai/github-issues-section-remake.git
+issue_tracker: https://github.com/estebanborai/github-issues-section-remake/issues
+documentation: https://github.com/estebanborai/github-issues-section-remake
+environment:
+  sdk: '>=2.0.0 <3.0.0'
