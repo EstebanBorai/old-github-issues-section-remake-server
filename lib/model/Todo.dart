@@ -24,13 +24,16 @@ class Todo {
 		this.updatedAt = new DateTime.now();
 	}
 
-	Map<String, dynamic> toJSON() =>
-		{
-			'id': this.id,
-			'title': this.title,
-			'description': this.description,
-			'status': this.status.index,
-			'createdAt': this.createdAt.toIso8601String(),
-			'updatedAt': this.updatedAt.toIso8601String()
-		};
+	String toJSON() =>
+		// FIXME: encoding to JSON
+		JsonEncoder.withIndent('2', 
+			{
+				'id': id,
+				'title': title,
+				'description': description,
+				'status': status.index,
+				'createdAt': createdAt.toIso8601String(),
+				'updatedAt': updatedAt.toIso8601String()
+			}
+		).convert(this);
 }
