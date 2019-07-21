@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:convert';
 
 enum TodoStatus {
 	notDone,
@@ -8,32 +7,34 @@ enum TodoStatus {
 }
 
 class Todo {
-	int id;
-	String title;
-	String description;
-	TodoStatus status;
-	DateTime createdAt;
-	DateTime updatedAt;
-	
-	Todo(int id, String title, String description, TodoStatus status) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.status = status;
-		this.createdAt = new DateTime.now();
-		this.updatedAt = new DateTime.now();
-	}
+	final int id;
+	final String title;
+	final String description;
+	final TodoStatus status;
+	final DateTime createdAt;
+	final DateTime updatedAt;
 
-	String toJSON() =>
-		// FIXME: encoding to JSON
-		JsonEncoder.withIndent('2', 
-			{
-				'id': id,
-				'title': title,
-				'description': description,
-				'status': status.index,
-				'createdAt': createdAt.toIso8601String(),
-				'updatedAt': updatedAt.toIso8601String()
-			}
-		).convert(this);
+	Todo(this.id, this.title, this.description, this.status) :
+		createdAt = DateTime.now(),
+		updatedAt = DateTime.now();
+
+	/// Constructs a Todo from a JSON object
+	Todo.fromJson(Map<String, dynamic> json)
+		: id = int.parse(json['id'].toString()),
+			title = json['title'].toString(),
+			description = json['description'].toString(),
+			status = TodoStatus.values[int.parse(json['status'].toString())],
+			createdAt = DateTime.tryParse(json['createdAt'].toString()),
+			updatedAt = DateTime.tryParse(json['updatedAt'].toString());
+
+	/// Returns the JSON version of the Todo object
+	Map<String, dynamic> toJSON() =>
+		{
+			'id': id,
+			'title': title,
+			'description': description,
+			'status': status.index,
+			'createdAt': createdAt.toIso8601String(),
+			'updatedAt': updatedAt.toIso8601String()
+		};
 }

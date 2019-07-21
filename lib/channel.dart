@@ -31,7 +31,7 @@ class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
 		// Prefer to use `link` instead of `linkFunction`.
 		// See: https://aqueduct.io/docs/http/request_controller/
 		router
-			.route("/$apiBase/todos")
+			.route("/$apiBase/todos/[:id]")
 			.link(() => TodoController());
 
 		return router;
