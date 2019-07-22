@@ -2,7 +2,7 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:github_issues_section_remake_server/github_issues_section_remake_server.dart';
 import 'package:github_issues_section_remake_server/model/Todo.dart';
 
-class TodoController extends Controller {
+class TodoController extends ResourceController {
 	final _todos = [
 		Todo(1, 'First Todo', 'A nice todo', TodoStatus.doing).toJSON(),
 		Todo(2, 'Second Todo', 'A nice todo', TodoStatus.doing).toJSON(),
@@ -10,19 +10,19 @@ class TodoController extends Controller {
 		Todo(4, 'Fourth Todo', 'A nice todo', TodoStatus.doing).toJSON()
 	];
 
-	@override
-	Future<RequestOrResponse> handle(Request request) async {
-		if (request.path.variables.containsKey('id')) {
-			final id = int.parse(request.path.variables['id']);
-			final todo = _todos.firstWhere((todo) => todo['id'] == id);
+	@Operation.get()
+	Future<Response> getTodos() async {
+		return Response.ok(_todos);
+	}
 
-			if (todo == null) {
-				return Response.notFound();
-			}
+	@Operation.get('id')
+	Future<Response> getTodoByID(@Bind.path('id') int id) async {
+		final todo = _todos.firstWhere((todo) => todo['id'] == id, orElse: () => null);
 
-			return Response.ok(todo);
+		if (todo == null) {
+			return Response.notFound();
 		}
 
-		return Response.ok(_todos);
+		return Response.ok(todo);
 	}
 }
