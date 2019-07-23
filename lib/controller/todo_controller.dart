@@ -1,23 +1,26 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:github_issues_section_remake_server/github_issues_section_remake_server.dart';
-import 'package:github_issues_section_remake_server/model/Todo.dart';
+import 'package:github_issues_section_remake_server/model/todo.dart';
 
 class TodoController extends ResourceController {
-	final _todos = [
-		Todo(1, 'First Todo', 'A nice todo', TodoStatus.doing).toJSON(),
-		Todo(2, 'Second Todo', 'A nice todo', TodoStatus.doing).toJSON(),
-		Todo(3, 'Third Todo', 'A nice todo', TodoStatus.doing).toJSON(),
-		Todo(4, 'Fourth Todo', 'A nice todo', TodoStatus.doing).toJSON()
-	];
+	TodoController(this.context);
+	
+	final ManagedContext context;
 
 	@Operation.get()
 	Future<Response> getTodos() async {
-		return Response.ok(_todos);
+		final todoQuery = Query<Todo>(context);
+		final todos = await todoQuery.fetch();
+
+		return Response.ok(todos);
 	}
 
 	@Operation.get('id')
 	Future<Response> getTodoByID(@Bind.path('id') int id) async {
-		final todo = _todos.firstWhere((todo) => todo['id'] == id, orElse: () => null);
+		final todoQuery = Query<Todo>(context)
+			..where((t) => t.id).equalTo(id);
+
+		final todo = await todoQuery.fetchOne();
 
 		if (todo == null) {
 			return Response.notFound();

@@ -1,11 +1,11 @@
 import 'github_issues_section_remake_server.dart';
 import 'package:github_issues_section_remake_server/controller/todo_controller.dart';
-
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://aqueduct.io/docs/http/channel/.
 class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
+	ManagedContext context;	
 	/// Initialize services in this method.
 	///
 	/// Implement this method to initialize services, read values from [options]
@@ -15,6 +15,12 @@ class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
 	@override
 	Future prepare() async {
 		logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
+
+		final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
+		final persistentStore = PostgreSQLPersistentStore.fromConnectionInfo(
+			"admin", "root", "localhost", 4321, "github_issues_remake");
+
+		context = ManagedContext(dataModel, persistentStore);
 	}
 
 	/// Construct the request channel.
@@ -32,7 +38,7 @@ class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
 		// See: https://aqueduct.io/docs/http/request_controller/
 		router
 			.route("/$apiBase/todos/[:id]")
-			.link(() => TodoController());
+			.link(() => TodoController(context));
 
 		return router;
 	}
