@@ -34,5 +34,5 @@ aqueduct db generate
 
 ## Updated database based on migration
 ```bash
-aqueduct db upgrade --connect postgres://admin:root@localhost:4321/todos
+aqueduct db upgrade --connect postgres://admin:root@localhost:4321/github_issues_remake
 ```
