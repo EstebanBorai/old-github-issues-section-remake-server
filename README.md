@@ -21,12 +21,15 @@ The default configuration file used when testing is `config.src.yaml`. This file
 See the documentation for [Deployment](https://aqueduct.io/docs/deploy/).
 
 ## Running Postgres Database with Docker
-Pull the `PostgreSQL` image
+Build `Dockerfile`:
 ```bash
-# from repository root directory
-docker run -d -p 4321:4321 --name github_issues_remake_db --env-file ./.env postgres
+docker build -t github_issues_remake_db .
 ```
 
+Run the builded image:
+```bash
+docker run -p 4321:4321 github_issues_remake_db:latest
+```
 ## Running migrations with aqueduct
 ```bash
 aqueduct db generate
