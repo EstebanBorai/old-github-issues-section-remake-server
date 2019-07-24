@@ -21,7 +21,7 @@ class _Todo {
 	String description;
 
 	@Column()
-	TodoStatus status;
+	String status;
 
 	@Column()
 	DateTime createdAt;

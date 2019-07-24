@@ -18,7 +18,7 @@ class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
 
 		final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
 		final persistentStore = PostgreSQLPersistentStore.fromConnectionInfo(
-			"admin", "root", "localhost", 4321, "github_issues_remake");
+			"admin_user", "root", "localhost", 5432, "github_issues_remake");
 
 		context = ManagedContext(dataModel, persistentStore);
 	}
