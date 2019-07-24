@@ -28,7 +28,7 @@ docker build -t github_issues_remake_db .
 
 Run the builded image:
 ```bash
-docker run -p 4321:4321 github_issues_remake_db:latest
+docker run -p 5432:5432 github_issues_remake_db:latest
 ```
 ## Running migrations with aqueduct
 ```bash
