@@ -28,4 +28,18 @@ class TodoController extends ResourceController {
 
 		return Response.ok(todo);
 	}
+
+	@Operation.post()
+	Future<Response> createTodo() async {
+		final Map<String, dynamic> body = await request.body.decode();
+		final query = Query<Todo>(context)
+			..values.title = body['title'] as String
+			..values.description = body['description'] as String
+			..values.status = body['status'] as String
+			..values.createdAt = DateTime.now();
+
+			final createdTodo = await query.insert();
+
+			return Response.ok(createdTodo);
+	}
 }
