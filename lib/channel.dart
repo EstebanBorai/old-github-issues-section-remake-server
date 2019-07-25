@@ -1,5 +1,6 @@
-import 'github_issues_section_remake_server.dart';
+import 'package:github_issues_section_remake_server/config/environment.dart';
 import 'package:github_issues_section_remake_server/controller/todo_controller.dart';
+import 'github_issues_section_remake_server.dart';
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
@@ -16,9 +17,11 @@ class GithubIssuesSectionRemakeServerChannel extends ApplicationChannel {
 	Future prepare() async {
 		logger.onRecord.listen((rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
 
+		final Map<String, String> appEnvVars = getAppEnvVars();
+	
 		final dataModel = ManagedDataModel.fromCurrentMirrorSystem();
 		final persistentStore = PostgreSQLPersistentStore.fromConnectionInfo(
-			"admin_user", "root", "localhost", 5432, "github_issues_remake");
+			"admin_user", "root", appEnvVars['DB_HOST_NAME'], 5432, "github_issues_remake");
 
 		context = ManagedContext(dataModel, persistentStore);
 	}

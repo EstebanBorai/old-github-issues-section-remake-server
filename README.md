@@ -41,3 +41,11 @@ aqueduct db generate
 ```bash
 aqueduct db upgrade --connect postgres://admin_user:root@localhost:5432/github_issues_remake
 ```
+
+## Running with Docker compose
+Running the project with `Docker compose` will build a run the complete server with PostgreSQL and Aqueduct.
+```bash
+docker-compose up --build
+```
+
+When Docker finalizes running initialization requests to `http://localhost:8888/api/v1/*` will be available.
