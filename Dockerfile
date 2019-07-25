@@ -1,5 +1,12 @@
-FROM postgres:11.4
+FROM google/dart
 
-COPY .docker/ /docker-entrypoint-initdb.d/
+WORKDIR /app
+ADD pubspec.* /app/
+RUN pub get --no-precompile
+ADD . /app/
+RUN pub get --offline --no-precompile
 
-EXPOSE 5432:5432
+WORKDIR /app
+EXPOSE 80
+
+ENTRYPOINT ["pub", "run", "aqueduct:aqueduct", "serve", "--port", "80"]
